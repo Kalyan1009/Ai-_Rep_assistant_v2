@@ -8,42 +8,63 @@ export default function Home() {
     const res = await fetch('/api/ask', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ question }),
+      body: JSON.stringify({ question })
     });
     const data = await res.json();
     setAnswer(data.answer);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-slate-100 flex items-center justify-center px-4 py-12">
-      <div className="w-full max-w-2xl bg-white shadow-md rounded-lg p-8 space-y-6">
-        <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-semibold text-blue-700">🧠 FieldEdge AI Assistant</h1>
-          <div className="text-sm text-gray-500">Rep: John Doe | Territory: North-East</div>
+    <div className="min-h-screen bg-gradient-to-b from-indigo-900 to-indigo-700 text-white font-sans">
+      {/* Top Navbar */}
+      <header className="flex justify-between items-center px-6 py-4 bg-indigo-800 shadow-md">
+        <h1 className="text-2xl font-semibold">FieldEdge AI</h1>
+        <div className="flex gap-4">
+          <span className="bg-purple-600 text-sm px-3 py-1 rounded-full">AI Assistant</span>
+          <div className="w-8 h-8 bg-gray-300 rounded-full"></div>
         </div>
+      </header>
 
-        <div className="flex flex-col sm:flex-row gap-4">
+      {/* Main Content */}
+      <main className="flex flex-col items-center justify-center px-4 py-10">
+        <h2 className="text-lg mb-4">Ask your question</h2>
+
+        <div className="flex gap-2 items-center w-full max-w-2xl">
           <input
-            className="flex-1 border border-gray-300 rounded-md px-4 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400"
+            className="flex-grow rounded-full px-6 py-3 bg-white text-black focus:outline-none shadow-md"
+            type="text"
             value={question}
+            placeholder="e.g. Which doctors had high call activity last month?"
             onChange={(e) => setQuestion(e.target.value)}
-            placeholder="Ask something like: 'What is my Q2 attainment?'"
           />
           <button
             onClick={handleAsk}
-            className="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition"
+            className="px-6 py-3 bg-gradient-to-r from-purple-500 to-pink-500 text-white rounded-full hover:scale-105 transition-all shadow-lg"
           >
-            Ask
+            ➤
           </button>
         </div>
 
+        {/* Toggles */}
+        <div className="flex gap-6 mt-4 text-sm">
+          <div className="flex items-center gap-2">
+            <label htmlFor="webSearch">Live Web Search</label>
+            <input id="webSearch" type="checkbox" className="accent-purple-500" />
+          </div>
+          <div className="flex items-center gap-2">
+            <label htmlFor="internalData">Internal Data</label>
+            <input id="internalData" type="checkbox" defaultChecked className="accent-green-500" />
+          </div>
+        </div>
+
+        {/* Answer Section */}
         {answer && (
-          <div className="bg-gray-50 p-4 rounded-md border border-gray-200 shadow-sm">
-            <h2 className="text-lg font-medium text-gray-700 mb-2">📊 Answer:</h2>
-            <p className="text-gray-800 whitespace-pre-line">{answer}</p>
+          <div className="mt-8 bg-white text-black p-6 rounded-xl shadow-lg w-full max-w-2xl">
+            <h3 className="text-md font-bold mb-2">💡 Insight</h3>
+            <p>{answer}</p>
           </div>
         )}
-      </div>
+      </main>
     </div>
   );
 }
